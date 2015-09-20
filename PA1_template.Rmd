@@ -181,6 +181,4 @@ xyplot(avg_steps~interval | daytype, data = Mydata_tbl_summary_miss,
       ylab = 'Number of Steps',
       layout = c(1,2))
 
-#transform the .Rmd to a markdown (.md) file.
-knit('PA1_template.Rmd')
 ```

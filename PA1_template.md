@@ -13,6 +13,14 @@ date: "Sunday, September 20, 2015"
 ```r
 # Load the required packages
 library(data.table)
+```
+
+```
+## data.table 1.9.4  For help type: ?data.table
+## *** NB: by=.EACHI is now explicit. See README to restore previous behaviour.
+```
+
+```r
 library(ggplot2)
 library(lattice)
 library(knitr)
@@ -81,7 +89,7 @@ gen_hist = function(x, title){
 gen_hist(Mydata_tbl_summary$total_steps, 'Number of Steps Taken Per Day')
 ```
 
-<img src="PA1_template_files/figure-html/unnamed-chunk-11-1.png" title="" alt="" width="672" />
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
 
 ## What is the average daily activity pattern?
 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
@@ -129,7 +137,7 @@ legend("topright",
        )
 ```
 
-<img src="PA1_template_files/figure-html/unnamed-chunk-12-1.png" title="" alt="" width="672" />
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
 ## Imputing missing values
 1. Calculate & Report The Number of Missing Values
 
@@ -189,16 +197,58 @@ Note: Mean and Median are reported In Legend Of Histogram
 gen_hist(Mydata_tbl_summary$total_steps, 'Missing Values Removed')
 ```
 
-<img src="PA1_template_files/figure-html/unnamed-chunk-15-1.png" title="" alt="" width="672" />
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
 
 ```r
 gen_hist(Mydata_tbl_summary_miss$new_steps, 'Missing Values Replaced With \n Mean For Interval')
 ```
 
-<img src="PA1_template_files/figure-html/unnamed-chunk-15-2.png" title="" alt="" width="672" />
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-2.png) 
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
 1. Create a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
 
 
+```r
+#Make Function To Return Either "Weekday" or "Weekend"
+weekpart = function(x){
+        if(x %in% c('Saturday', 'Sunday')){
+                return('Weekend')
+        }
+        return('Weekday')
+}
+
+#Add Name of Week
+Mydata_tbl_miss$dayname = weekdays(as.Date(Mydata_tbl_miss$date))
+
+#Add Factor Variable To Differentiate Weekday and Weekend
+Mydata_tbl_miss$daytype = as.factor(apply(as.matrix(Mydata_tbl_miss$dayname), 1,                                     weekpart))
+
+#Summarize Dataset: Mean grouped by interval and daytype
+Mydata_tbl_summary_miss = Mydata_tbl_miss[, list(avg_steps = mean(new_steps, 
+                                          na.rm = T)), by = list(interval,
+                                          daytype)]
+
+#inspect dataset
+str(Mydata_tbl_summary_miss)
+```
+
+```
+## Classes 'data.table' and 'data.frame':	576 obs. of  3 variables:
+##  $ interval : int  0 0 5 5 10 10 15 15 20 20 ...
+##  $ daytype  : Factor w/ 2 levels "Weekday","Weekend": 1 2 1 2 1 2 1 2 1 2 ...
+##  $ avg_steps: num  2.2512 0.2146 0.4453 0.0425 0.1732 ...
+##  - attr(*, ".internal.selfref")=<externalptr>
+```
+
+```r
+#Generate the panel plot:
+xyplot(avg_steps~interval | daytype, data = Mydata_tbl_summary_miss,
+      type = 'l',
+      xlab = 'Interval',
+      ylab = 'Number of Steps',
+      layout = c(1,2))
+```
+
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png) 
