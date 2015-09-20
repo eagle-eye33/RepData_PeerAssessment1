@@ -7,7 +7,7 @@ date: "Sunday, September 20, 2015"
 ---
 
 ## Loading & Preprocessing Data
-1. Load Data
+1. Load required library and data
 2. Process data to data.table
 ```{r }
 # Load the required packages

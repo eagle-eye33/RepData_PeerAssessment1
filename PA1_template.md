@@ -7,20 +7,12 @@ date: "Sunday, September 20, 2015"
 ---
 
 ## Loading & Preprocessing Data
-1. Load Data
+1. Load required library and data
 2. Process data to data.table
 
 ```r
 # Load the required packages
 library(data.table)
-```
-
-```
-## data.table 1.9.4  For help type: ?data.table
-## *** NB: by=.EACHI is now explicit. See README to restore previous behaviour.
-```
-
-```r
 library(ggplot2)
 library(lattice)
 library(knitr)
