@@ -72,7 +72,7 @@ gen_hist(Mydata_tbl_summary$total_steps, 'Number of Steps Taken Per Day')
 
 2. To find out Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
-Note: Maximum number of steps is reported In Legend Of Time Series Plot
+Note: Maximum number of steps also reported In Legend Of Time Series Plot
 ```{r echo=TRUE}
 #summarize dataset by interval
 Mydata_tbl_summary_intv = Mydata_tbl[, list(avg_steps = mean(steps, 
@@ -95,12 +95,12 @@ max_steps
 max_lab = paste('Maximum Of ', round(max_steps$avg_steps, 1), ' Steps \n On ', max_steps$interval, 'th Time Interval', sep = '')
 
 #Collect Cooridinates of The Max Interval For Graphing
-points(max_steps$interval,  max_steps$avg_steps, col = 'red', lwd = 3, pch = 19)
+points(max_steps$interval,  max_steps$avg_steps, col = 'green', lwd = 3, pch = 19)
 
 #Add Label To Annotate Maximum # Steps And Interval
 legend("topright",
        legend = max_lab,
-       text.col = 'red',
+       text.col = 'green',
        bty = 'n'
        )
 ```   
